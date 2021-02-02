@@ -35,10 +35,8 @@ namespace Data_Generator
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
-            this.comboBoxLanguage = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.checkBox2 = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -46,6 +44,9 @@ namespace Data_Generator
             this.checkBox4 = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
+            this.comboBoxLanguage = new System.Windows.Forms.ComboBox();
+            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -103,13 +104,7 @@ namespace Data_Generator
             this.button2.TabIndex = 6;
             this.button2.Text = "Wygeneruj Wiele wyników";
             this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox3
-            // 
-            this.textBox3.Location = new System.Drawing.Point(116, 426);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(100, 22);
-            this.textBox3.TabIndex = 7;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label2
             // 
@@ -128,18 +123,7 @@ namespace Data_Generator
             this.button3.TabIndex = 9;
             this.button3.Text = "Wygeneruj!";
             this.button3.UseVisualStyleBackColor = true;
-            // 
-            // comboBoxLanguage
-            // 
-            this.comboBoxLanguage.FormattingEnabled = true;
-            this.comboBoxLanguage.Items.AddRange(new object[] {
-            "Polski",
-            "Angielski",
-            "Niemiecki"});
-            this.comboBoxLanguage.Location = new System.Drawing.Point(596, 49);
-            this.comboBoxLanguage.Name = "comboBoxLanguage";
-            this.comboBoxLanguage.Size = new System.Drawing.Size(121, 24);
-            this.comboBoxLanguage.TabIndex = 10;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // label3
             // 
@@ -209,21 +193,58 @@ namespace Data_Generator
             this.button4.Text = "Dodaj kolejne pole";
             this.button4.UseVisualStyleBackColor = true;
             // 
+            // comboBoxLanguage
+            // 
+            this.comboBoxLanguage.FormattingEnabled = true;
+            this.comboBoxLanguage.Items.AddRange(new object[] {
+            "pl",
+            "en_GB",
+            "de"});
+            this.comboBoxLanguage.Location = new System.Drawing.Point(594, 33);
+            this.comboBoxLanguage.Name = "comboBoxLanguage";
+            this.comboBoxLanguage.Size = new System.Drawing.Size(121, 24);
+            this.comboBoxLanguage.TabIndex = 17;
+            this.comboBoxLanguage.SelectedIndexChanged += new System.EventHandler(this.comboBoxLanguage_SelectedIndexChanged);
+            // 
+            // numericUpDown1
+            // 
+            this.numericUpDown1.Location = new System.Drawing.Point(165, 425);
+            this.numericUpDown1.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Name = "numericUpDown1";
+            this.numericUpDown1.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDown1.TabIndex = 18;
+            this.numericUpDown1.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown1.Visible = false;
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 532);
+            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.comboBoxLanguage);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.checkBox5);
             this.Controls.Add(this.checkBox4);
             this.Controls.Add(this.checkBox3);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.comboBoxLanguage);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.checkBox2);
             this.Controls.Add(this.checkBox1);
@@ -234,6 +255,7 @@ namespace Data_Generator
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,10 +269,8 @@ namespace Data_Generator
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.CheckBox checkBox1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBoxLanguage;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox checkBox2;
         private System.Windows.Forms.Label label4;
@@ -258,6 +278,8 @@ namespace Data_Generator
         private System.Windows.Forms.CheckBox checkBox4;
         private System.Windows.Forms.CheckBox checkBox5;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.ComboBox comboBoxLanguage;
+        private System.Windows.Forms.NumericUpDown numericUpDown1;
     }
 }
 
