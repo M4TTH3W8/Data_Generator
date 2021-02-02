@@ -88,7 +88,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\DataGenerator\DataType.cs" />
+    <Compile Include="Services\DataGenerator\DataTypeGenerator.cs" />
+    <Compile Include="Utils\GeneratorSettings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
