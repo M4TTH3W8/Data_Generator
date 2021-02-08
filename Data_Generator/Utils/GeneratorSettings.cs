@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Generator.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,8 @@ namespace Data_Generator.Utils
     {
         public string Language { get; set; }
         public int Amount { get; set; }
-        public IDictionary<string, string> DataSets = new Dictionary<string, string>();
+        public int Size { get; set; }
+        public IDictionary<string, DataType> DataSets = new Dictionary<string, DataType>();
 
     }
 }
