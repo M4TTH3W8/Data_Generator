@@ -37,7 +37,5 @@ namespace Data_Generator
             DataName = result;
             
         }
-
-
     }
 }
