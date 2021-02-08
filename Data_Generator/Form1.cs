@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Bogus;
 using Data_Generator.Utils;
@@ -30,27 +26,20 @@ namespace Data_Generator
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            comboBoxLanguage.SelectedIndex = 0;
+            numericAmount.Value = 1;
+            numericSize.Value = 100;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonSingleResult_Click(object sender, EventArgs e)
         {
-            /*if (checkBox1.Checked)
-            {
-                string imie = new Bogus.DataSets.Name("pl").FirstName();
-                textBox1.Text = imie;
-            }
-            if (checkBox2.Checked)
-            {
-                string nazwisko = new Bogus.DataSets.Address("pl").StreetAddress();
-                textBox2.Text = nazwisko;
-            }*/
-            //var result = _dataTypeGenerator.GenerateSingleData(_generatorSettings);
-            //textBox1.Text = result["firstName"];
-            //textBox2.Text = result["lastName"];
             _generatorSettings.Amount = 1;
+            decimal size = numericSize.Value;
+            _generatorSettings.Size = Convert.ToInt32(size);
+
             _generatorSettings.Language = comboBoxLanguage.SelectedItem.ToString();
             _generatorSettings.DataSets = new Dictionary<string, DataType>();
-            foreach (var control in _generateFieldControls) 
+            foreach (var control in _generateFieldControls)
             {
                 _generatorSettings.DataSets.Add(control.Name, control.DataName);
 
@@ -59,103 +48,96 @@ namespace Data_Generator
             foreach (var res in result)
             {
                 var control = _generateFieldControls.SingleOrDefault(x => x.Name.Equals(res.Key));
-                if (control != null )
+                if (control != null)
                 {
                     control.SetText(res.Value);
                 }
             }
-
         }
 
         public void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
-             string languageId = comboBoxLanguage.SelectedItem.ToString();
+            string languageId = comboBoxLanguage.SelectedItem.ToString();
             //just for testing purposes
             Console.WriteLine(languageId);
             _generatorSettings.Language = languageId;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void buttonMultipleResults_Click(object sender, EventArgs e)
         {
-            numericUpDown1.Visible = true;
+            labelAmount.Visible = true;
+            numericAmount.Visible = true;
+            labelExport.Visible = true;
+            checkBoxXLS.Visible = true;
+            checkBoxCSV.Visible = true;
+            checkBoxXml.Visible = true;
+            buttonGenerate.Visible = true;
         }
 
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        private void numericAmount_ValueChanged(object sender, EventArgs e)
         {
-            int Amount = int.Parse(numericUpDown1.Value.ToString());
+            int Amount = int.Parse(numericAmount.Value.ToString());
             _generatorSettings.Amount = Amount;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void buttonGenerate_Click(object sender, EventArgs e)
         {
-           var temp = _dataTypeGenerator.GenerateMultipleData(_generatorSettings);
-            foreach (var x in temp) {
+            decimal amount = numericAmount.Value;
+            _generatorSettings.Amount = Convert.ToInt32(amount);
+
+            decimal size = numericSize.Value;
+            _generatorSettings.Size = Convert.ToInt32(size);
+
+            _generatorSettings.DataSets = new Dictionary<string, DataType>();
+            foreach (var control in _generateFieldControls)
+            {
+                //need to find a way to instead of getting control name get wat type of data we want and possibly a check that only once
+                //we get specific type or something
+                _generatorSettings.DataSets.Add(control.Name, control.DataName);
+
+            }
+
+            var temp = _dataTypeGenerator.GenerateSingleData2(_generatorSettings);
+            foreach (var x in temp)
+            {
+                //Console.WriteLine($"firstName: {x["item.Key"]}");
+            }
+            var json = Newtonsoft.Json.JsonConvert.SerializeObject(temp);
+            Console.WriteLine(json);
+            System.IO.File.WriteAllText(@"C:\Output.json", json);
+            //Console.WriteLine(temp.ToString());
+        }
+/*        private void kopiamultiple()
+        {
+            var temp = _dataTypeGenerator.GenerateMultipleData(_generatorSettings);
+            foreach (var x in temp)
+            {
                 Console.WriteLine($"firstName: {x["firstName"]} lastName: {x["lastName"]}");
             }
             // Console.WriteLine(temp.ToString());
             var json = Newtonsoft.Json.JsonConvert.SerializeObject(temp);
             Console.WriteLine(json);
             System.IO.File.WriteAllText(@"C:\Output.json", json);
-        }
+        }*/
 
-        //private static int n = 1;
         private void buttonAddField_Click(object sender, EventArgs e)
         {
-            int controlX = 16;
-            int controlY = 77 + 55*_generateFieldControls.Count();
-            
+            int controlX = 1;
+            int controlY = 60 + 35 * _generateFieldControls.Count();
             GenerateFieldControl newGenerateFieldControl = new GenerateFieldControl();
             newGenerateFieldControl.Location = new Point(controlX, controlY);
             newGenerateFieldControl.Name = "Control" + (_generateFieldControls.Count() + 1);
             this.Controls.Add(newGenerateFieldControl);
             _generateFieldControls.Add(newGenerateFieldControl);
-            
-            
-/*            n = n + 1;
-            TextBox[] textBox = new TextBox[n];
-            Label[] label = new Label[n];
-            int labelX, labelY, textboxX, textboxY;
-
-            labelX = 16;
-            labelY = 77;
-            textboxX = 104;
-            textboxY = 16;
-
-            for (int i = 0; i < n; i++)
-            {
-                textBox[i] = new TextBox();
-                textBox[i].Name = "n" + i;
-                textBox[i].Text = "n" + i;
-                textBox[i].Location = new Point(textboxX, textboxY);
-
-                label[i] = new Label();
-                label[i].Name = "n" + i;
-                label[i].Text = "n" + i;
-                label[i].Location = new Point(labelX, labelY);
-
-                labelY += 55;
-                textboxY += 55;
-            }
-
-            for (int i = 0; i < n; i++)
-            {
-                this.Controls.Add(textBox[i]);
-                this.Controls.Add(label[i]);
-            }*/
         }
 
-        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        private void numericSize_ValueChanged(object sender, EventArgs e)
         {
-            int Size = int.Parse(numericUpDown2.Value.ToString());
+            int Size = int.Parse(numericSize.Value.ToString());
             _generatorSettings.Size = Size;
         }
 
-        private void generateFieldControl1_Load(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button2_Click_1(object sender, EventArgs e)
+        private void buttonRemoveField_Click_1(object sender, EventArgs e)
         {
             if (_generateFieldControls.Count <= 0)
             {

@@ -11,7 +11,7 @@ namespace Data_Generator.Services.DataGenerator
     {
         private static Randomizer r = new Randomizer();
 
-        public static string ClampLength(this string str, int? min = null, int? max = null)
+        public static string MaximumLengthOfData(this string str, int? min = null, int? max = null)
         {
             if (max != null && str.Length > max)
             {
