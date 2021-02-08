@@ -86,12 +86,23 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerateFieldControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GenerateFieldControl.Designer.cs">
+      <DependentUpon>GenerateFieldControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\DataType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataGenerator\DataTypeGenerator.cs" />
+    <Compile Include="Services\DataGenerator\ExtensionForString.cs" />
     <Compile Include="Utils\GeneratorSettings.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenerateFieldControl.resx">
+      <DependentUpon>GenerateFieldControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
