@@ -1,22 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Data_Generator.Model
+﻿namespace Data_Generator.Model
 {
     public enum DataType
     {
-        FirstName,
-        LastName,
-        City,
-        PhoneNumber,
-        ZipCode,
-        CreditCard,
-        Date,
+        Imie,
+        Nazwisko,
+        Miasto,
+        Numer_Telefonu,
+        Kod_Pocztowy,
+        Karta_Kredytowa,
+        Data,
         Email,
-        Password,
-        Username
+        Haslo,
+        Nick
     }
 }

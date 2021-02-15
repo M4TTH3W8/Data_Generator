@@ -21,7 +21,6 @@ namespace Data_Generator
             foreach (var item in Enum.GetValues(typeof(DataType)))
             {
                 comboBox1.Items.Add(item);
-                
             }
         }
 
