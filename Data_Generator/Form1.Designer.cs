@@ -44,6 +44,7 @@ namespace Data_Generator
             this.numericSize = new System.Windows.Forms.NumericUpDown();
             this.buttonRemoveField = new System.Windows.Forms.Button();
             this.labelSize = new System.Windows.Forms.Label();
+            this.checkBoxJson = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericAmount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericSize)).BeginInit();
             this.SuspendLayout();
@@ -80,7 +81,7 @@ namespace Data_Generator
             // 
             // buttonGenerate
             // 
-            this.buttonGenerate.Location = new System.Drawing.Point(596, 399);
+            this.buttonGenerate.Location = new System.Drawing.Point(596, 417);
             this.buttonGenerate.Name = "buttonGenerate";
             this.buttonGenerate.Size = new System.Drawing.Size(100, 31);
             this.buttonGenerate.TabIndex = 9;
@@ -157,9 +158,9 @@ namespace Data_Generator
             this.comboBoxLanguage.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxLanguage.FormattingEnabled = true;
             this.comboBoxLanguage.Items.AddRange(new object[] {
-            "pl",
-            "en_GB",
-            "de"});
+            "Polski",
+            "Angielski",
+            "Niemiecki"});
             this.comboBoxLanguage.Location = new System.Drawing.Point(410, 30);
             this.comboBoxLanguage.Name = "comboBoxLanguage";
             this.comboBoxLanguage.Size = new System.Drawing.Size(121, 24);
@@ -217,6 +218,17 @@ namespace Data_Generator
             this.labelSize.Text = "Opcjonalnie:Maksymalna Długość generowanej danej";
             this.labelSize.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // checkBoxJson
+            // 
+            this.checkBoxJson.AutoSize = true;
+            this.checkBoxJson.Location = new System.Drawing.Point(614, 392);
+            this.checkBoxJson.Name = "checkBoxJson";
+            this.checkBoxJson.Size = new System.Drawing.Size(64, 21);
+            this.checkBoxJson.TabIndex = 23;
+            this.checkBoxJson.Text = ".Json";
+            this.checkBoxJson.UseVisualStyleBackColor = true;
+            this.checkBoxJson.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -224,6 +236,7 @@ namespace Data_Generator
             this.AutoScroll = true;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(810, 453);
+            this.Controls.Add(this.checkBoxJson);
             this.Controls.Add(this.labelSize);
             this.Controls.Add(this.buttonRemoveField);
             this.Controls.Add(this.numericSize);
@@ -267,6 +280,7 @@ namespace Data_Generator
         private System.Windows.Forms.NumericUpDown numericSize;
         private System.Windows.Forms.Button buttonRemoveField;
         private System.Windows.Forms.Label labelSize;
+        private System.Windows.Forms.CheckBox checkBoxJson;
     }
 }
 

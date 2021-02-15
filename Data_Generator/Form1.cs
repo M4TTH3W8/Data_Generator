@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Bogus;
 using Data_Generator.Utils;
 using Data_Generator.Services.DataGenerator;
 using Data_Generator.Model;
+using Newtonsoft.Json;
+using System.IO;
+using System.Xml;
+using System.Data;
+using ClosedXML.Excel;
 
 namespace Data_Generator
 {
@@ -16,7 +20,7 @@ namespace Data_Generator
         private DataTypeGenerator _dataTypeGenerator;
         private IList<GenerateFieldControl> _generateFieldControls;
 
-        public Form1()
+    public Form1()
         {
             InitializeComponent();
             _generatorSettings = new GeneratorSettings();
@@ -37,14 +41,15 @@ namespace Data_Generator
             decimal size = numericSize.Value;
             _generatorSettings.Size = Convert.ToInt32(size);
 
-            _generatorSettings.Language = comboBoxLanguage.SelectedItem.ToString();
             _generatorSettings.DataSets = new Dictionary<string, DataType>();
+
             foreach (var control in _generateFieldControls)
             {
                 _generatorSettings.DataSets.Add(control.Name, control.DataName);
-
             }
+
             var result = _dataTypeGenerator.GenerateSingleData(_generatorSettings);
+
             foreach (var res in result)
             {
                 var control = _generateFieldControls.SingleOrDefault(x => x.Name.Equals(res.Key));
@@ -58,9 +63,20 @@ namespace Data_Generator
         public void comboBoxLanguage_SelectedIndexChanged(object sender, EventArgs e)
         {
             string languageId = comboBoxLanguage.SelectedItem.ToString();
-            //just for testing purposes
-            Console.WriteLine(languageId);
-            _generatorSettings.Language = languageId;
+            if (languageId == "Polski")
+            {
+                _generatorSettings.Language = "pl";
+            }
+
+            else if (languageId == "Angielski")
+            {
+                _generatorSettings.Language = "en_GB";
+            }
+
+            else if (languageId == "Niemiecki")
+            {
+                _generatorSettings.Language = "de";
+            }
         }
 
         private void buttonMultipleResults_Click(object sender, EventArgs e)
@@ -71,6 +87,7 @@ namespace Data_Generator
             checkBoxXLS.Visible = true;
             checkBoxCSV.Visible = true;
             checkBoxXml.Visible = true;
+            checkBoxJson.Visible = true;
             buttonGenerate.Visible = true;
         }
 
@@ -89,44 +106,71 @@ namespace Data_Generator
             _generatorSettings.Size = Convert.ToInt32(size);
 
             _generatorSettings.DataSets = new Dictionary<string, DataType>();
+            
             foreach (var control in _generateFieldControls)
             {
-                //need to find a way to instead of getting control name get wat type of data we want and possibly a check that only once
-                //we get specific type or something
-                _generatorSettings.DataSets.Add(control.Name, control.DataName);
-
+                string dataType = control.DataName.ToString();
+                _generatorSettings.DataSets.Add(dataType, control.DataName);
             }
 
-            var temp = _dataTypeGenerator.GenerateSingleData2(_generatorSettings);
-            foreach (var x in temp)
-            {
-                //Console.WriteLine($"firstName: {x["item.Key"]}");
-            }
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(temp);
-            Console.WriteLine(json);
-            System.IO.File.WriteAllText(@"C:\Output.json", json);
-            //Console.WriteLine(temp.ToString());
-        }
-/*        private void kopiamultiple()
-        {
             var temp = _dataTypeGenerator.GenerateMultipleData(_generatorSettings);
-            foreach (var x in temp)
+            var json = JsonConvert.SerializeObject(temp);
+
+            if (checkBoxJson.Checked)
             {
-                Console.WriteLine($"firstName: {x["firstName"]} lastName: {x["lastName"]}");
+                File.WriteAllText(@"C:\GeneratedData.json", json);
             }
-            // Console.WriteLine(temp.ToString());
-            var json = Newtonsoft.Json.JsonConvert.SerializeObject(temp);
-            Console.WriteLine(json);
-            System.IO.File.WriteAllText(@"C:\Output.json", json);
-        }*/
+
+            if (checkBoxXml.Checked)
+            {
+                XmlDocument xml = JsonConvert.DeserializeXmlNode("{\"element\":" + json + "}", "root");
+                xml.Save(@"C:\GeneratedData.xml");
+            }
+
+            if (checkBoxCSV.Checked)
+            {
+                XmlDocument xml = JsonConvert.DeserializeXmlNode("{\"element\":" + json + "}", "root");
+                XmlDocument xmldoc = new XmlDocument();
+
+                xmldoc.LoadXml(xml.InnerXml);
+                XmlReader xmlReader = new XmlNodeReader(xml);
+
+                DataSet dataSet = new DataSet();
+                dataSet.ReadXml(xmlReader);
+
+                var dataTable = dataSet.Tables[0];
+
+                var lines = new List<string>();
+
+                string[] columnNames = dataTable.Columns.Cast<DataColumn>().Select(column => column.ColumnName).ToArray();
+
+                var header = string.Join(",", columnNames);
+                lines.Add(header);
+                var valueLines = dataTable.AsEnumerable().Select(row => string.Join(",", row.ItemArray));
+                lines.AddRange(valueLines);
+                File.WriteAllLines(@"C:\GeneratedData.csv", lines);
+            }
+
+            if (checkBoxXLS.Checked)
+            {
+                DataTable dt = (DataTable)JsonConvert.DeserializeObject(json, typeof(DataTable));
+                XLWorkbook wb = new XLWorkbook();
+
+                wb.Worksheets.Add(dt, "Spreadsheet");
+                wb.SaveAs(@"C:\GeneratedData.xlsx");
+            }
+        }
 
         private void buttonAddField_Click(object sender, EventArgs e)
         {
             int controlX = 1;
             int controlY = 60 + 35 * _generateFieldControls.Count();
+
             GenerateFieldControl newGenerateFieldControl = new GenerateFieldControl();
+
             newGenerateFieldControl.Location = new Point(controlX, controlY);
-            newGenerateFieldControl.Name = "Control" + (_generateFieldControls.Count() + 1);
+            newGenerateFieldControl.Name = "Typ" + (_generateFieldControls.Count() + 1);
+
             this.Controls.Add(newGenerateFieldControl);
             _generateFieldControls.Add(newGenerateFieldControl);
         }
@@ -143,6 +187,7 @@ namespace Data_Generator
             {
                 return;
             }
+
             var toRemove = _generateFieldControls.Last();
             this.Controls.Remove(toRemove);
             _generateFieldControls.Remove(toRemove);

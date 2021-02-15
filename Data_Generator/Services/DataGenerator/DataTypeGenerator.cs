@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Bogus;
-using Bogus.Extensions;
-using Data_Generator;
+﻿using System.Collections.Generic;
 using Data_Generator.Model;
 using Data_Generator.Utils;
 
@@ -29,48 +22,60 @@ namespace Data_Generator.Services.DataGenerator
 
         public string GenerateByDataType(DataType dataName, string language, int size)
         {
-            switch (dataName)
+            if (dataName == DataType.Imie)
             {
-                case DataType.FirstName:
-                    return new Bogus.DataSets.Name(language).FirstName().MaximumLengthOfData(size, size);
-                case DataType.LastName:
-                    return new Bogus.DataSets.Name(language).LastName().MaximumLengthOfData(size, size);
-                case DataType.City:
-                    return new Bogus.DataSets.Address(language).City().MaximumLengthOfData(size, size);
-                case DataType.PhoneNumber:
-                    return new Bogus.DataSets.PhoneNumbers(language).PhoneNumber().MaximumLengthOfData(size, size);
-                case DataType.ZipCode:
-                    return new Bogus.DataSets.Address(language).ZipCode().MaximumLengthOfData(size, size);
-                case DataType.CreditCard:
-                    return new Bogus.DataSets.Finance().CreditCardNumber().MaximumLengthOfData(size, size);
-                case DataType.Date:
-                    return new Bogus.DataSets.Date(language).Recent().ToString();
-                case DataType.Email:
-                    return new Bogus.DataSets.Internet(language).Email();
-                case DataType.Password:
-                    return new Bogus.DataSets.Internet(language).Password().MaximumLengthOfData(size, size);
-                case DataType.Username:
-                    return new Bogus.DataSets.Internet(language).UserName().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Name(language).FirstName().MaximumLengthOfData(size, size);
             }
+
+            else if (dataName == DataType.Nazwisko)
+            {
+                return new Bogus.DataSets.Name(language).LastName().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Miasto)
+            {
+                return new Bogus.DataSets.Address(language).City().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Numer_Telefonu)
+            {
+                return new Bogus.DataSets.PhoneNumbers(language).PhoneNumber().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Kod_Pocztowy)
+            {
+                return new Bogus.DataSets.Address(language).ZipCode().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Karta_Kredytowa)
+            {
+                return new Bogus.DataSets.Finance().CreditCardNumber().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Data)
+            {
+                return new Bogus.DataSets.Date(language).Recent().ToString();
+            }
+
+            else if (dataName == DataType.Email)
+            {
+                return new Bogus.DataSets.Internet(language).Email();
+            }
+
+            else if (dataName == DataType.Haslo)
+            {
+                return new Bogus.DataSets.Internet(language).Password().MaximumLengthOfData(size, size);
+            }
+
+            else if (dataName == DataType.Nick)
+            {
+                return new Bogus.DataSets.Internet(language).UserName().MaximumLengthOfData(size, size);
+            }
+
             return string.Empty;
         }
 
-            public IList<IDictionary<string, string>> GenerateMultipleData(GeneratorSettings generatorSettings)
-            {
-            string setLanguage = generatorSettings.Language;
-            var result = new List<IDictionary<string, string>>();
-            for (int i = 0; i < generatorSettings.Amount; i++)
-            {
-                string firstName = new Bogus.DataSets.Name(setLanguage).FirstName();
-                string lastName = new Bogus.DataSets.Name(setLanguage).LastName();
-                Dictionary<string, string> item = new Dictionary<string, string>();
-                item.Add("firstName", firstName);
-                item.Add("lastName", lastName);
-                result.Add(item);
-            }
-            return result;
-            }
-        public IList<IDictionary<string, string>> GenerateSingleData2(GeneratorSettings generatorSettings)
+        public IList<IDictionary<string, string>> GenerateMultipleData(GeneratorSettings generatorSettings)
         {
             string setLanguage = generatorSettings.Language;
             var result = new List<IDictionary<string, string>>();
@@ -79,12 +84,14 @@ namespace Data_Generator.Services.DataGenerator
             for (int i = 0; i < generatorSettings.Amount; i++)
             {
                 Dictionary<string, string> items = new Dictionary<string, string>();
+
                 foreach (var item in generatorSettings.DataSets)
                 {
                     var tempvalue = GenerateByDataType(item.Value, setLanguage, size);
                     items.Add(item.Key, tempvalue);
-                    result.Add(items);
                 }
+
+                result.Add(items);   
             }
             return result;
         }
