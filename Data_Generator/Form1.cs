@@ -99,6 +99,8 @@ namespace Data_Generator
 
         private void buttonGenerate_Click(object sender, EventArgs e)
         {
+            string subPath = @"C:\GeneratedData\";
+
             decimal amount = numericAmount.Value;
             _generatorSettings.Amount = Convert.ToInt32(amount);
 
@@ -118,13 +120,17 @@ namespace Data_Generator
 
             if (checkBoxJson.Checked)
             {
-                File.WriteAllText(@"C:\GeneratedData.json", json);
+                //this contains verification if directory already exists
+                Directory.CreateDirectory(subPath);
+                File.WriteAllText(@"C:\GeneratedData\GeneratedData.json", json);
             }
 
             if (checkBoxXml.Checked)
             {
+                //this contains verification if directory already exists
+                Directory.CreateDirectory(subPath);
                 XmlDocument xml = JsonConvert.DeserializeXmlNode("{\"element\":" + json + "}", "root");
-                xml.Save(@"C:\GeneratedData.xml");
+                xml.Save(@"C:\GeneratedData\GeneratedData.xml");
             }
 
             if (checkBoxCSV.Checked)
@@ -148,7 +154,10 @@ namespace Data_Generator
                 lines.Add(header);
                 var valueLines = dataTable.AsEnumerable().Select(row => string.Join(",", row.ItemArray));
                 lines.AddRange(valueLines);
-                File.WriteAllLines(@"C:\GeneratedData.csv", lines);
+
+                //this contains verification if directory already exists
+                Directory.CreateDirectory(subPath);
+                File.WriteAllLines(@"C:\GeneratedData\GeneratedData.csv", lines);
             }
 
             if (checkBoxXLS.Checked)
@@ -156,8 +165,10 @@ namespace Data_Generator
                 DataTable dt = (DataTable)JsonConvert.DeserializeObject(json, typeof(DataTable));
                 XLWorkbook wb = new XLWorkbook();
 
+                //this contains verification if directory already exists
+                Directory.CreateDirectory(subPath);
                 wb.Worksheets.Add(dt, "Spreadsheet");
-                wb.SaveAs(@"C:\GeneratedData.xlsx");
+                wb.SaveAs(@"C:\GeneratedData\GeneratedData.xlsx");
             }
         }
 
