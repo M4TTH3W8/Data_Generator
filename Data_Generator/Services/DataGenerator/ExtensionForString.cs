@@ -2,7 +2,7 @@
 {
     public static class ExtensionsForString
     {
-        public static string MaximumLengthOfData(this string str, int? min = null, int? max = null)
+        public static string MaximumLengthOfData(this string str, int? max = null)
         {
             if (max != null && str.Length > max)
             {
