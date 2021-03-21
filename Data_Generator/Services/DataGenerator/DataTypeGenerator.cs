@@ -24,32 +24,32 @@ namespace Data_Generator.Services.DataGenerator
         {
             if (dataName == DataType.Imie)
             {
-                return new Bogus.DataSets.Name(language).FirstName().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Name(language).FirstName().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Nazwisko)
             {
-                return new Bogus.DataSets.Name(language).LastName().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Name(language).LastName().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Miasto)
             {
-                return new Bogus.DataSets.Address(language).City().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Address(language).City().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Numer_Telefonu)
             {
-                return new Bogus.DataSets.PhoneNumbers(language).PhoneNumber().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.PhoneNumbers(language).PhoneNumber().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Kod_Pocztowy)
             {
-                return new Bogus.DataSets.Address(language).ZipCode().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Address(language).ZipCode().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Karta_Kredytowa)
             {
-                return new Bogus.DataSets.Finance().CreditCardNumber().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Finance().CreditCardNumber().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Data)
@@ -64,12 +64,12 @@ namespace Data_Generator.Services.DataGenerator
 
             else if (dataName == DataType.Haslo)
             {
-                return new Bogus.DataSets.Internet(language).Password().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Internet(language).Password().MaximumLengthOfData(size);
             }
 
             else if (dataName == DataType.Nick)
             {
-                return new Bogus.DataSets.Internet(language).UserName().MaximumLengthOfData(size, size);
+                return new Bogus.DataSets.Internet(language).UserName().MaximumLengthOfData(size);
             }
 
             return string.Empty;
